@@ -1,0 +1,11 @@
+// Connections Exported from Studio 3T -- https://studio3t.com/
+// Exported on Feb 11, 2021 9:53:44 AM
+
+// core-prod
+mongodb+srv://core-prod.bgysp.mongodb.net/?replicaSet=&readPreference=primary&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1
+
+// core-dev
+mongodb+srv://core-dev.lszqe.mongodb.net/admin?replicaSet=core-dev-shard-0&readPreference=primary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1
+
+// core-stage
+mongodb+srv://core-stage.lszqe.mongodb.net/admin?replicaSet=core-stage-shard-0&readPreference=primary&connectTimeoutMS=10000&authSource=admin&authMechanism=SCRAM-SHA-1
