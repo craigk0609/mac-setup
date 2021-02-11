@@ -1,0 +1,75 @@
+#! /usr/bin/env bash
+
+source lib/installers.sh
+source lib/utilities.sh
+source lib/verifiers.sh
+
+# SET Environment Variables
+export DOCKER_APP_NAME="Docker.app"
+export DOCKER_VOLUME_NAME="Docker"
+export DOCKER_APP_URL="https://download.docker.com/mac/stable/Docker.dmg"
+
+export SONOS_APP_NAME="Sonos S1 Controller.app"
+export SONOS_VOLUME_NAME="Sonos"
+export SONOS_APP_URL="https://www.sonos.com/redir/controller_software_mac"
+
+export MAC_OS_WORK_PATH=/tmp/downloads
+
+# Installs applications.
+printf "%s\n" "Checking for install of $DOCKER_APP_NAME..."
+install_dmg_app "$DOCKER_APP_URL" "$DOCKER_VOLUME_NAME" "$DOCKER_APP_NAME"
+
+printf "%s\n" "Checking for install of $SONOS_APP_NAME..."
+install_dmg_app "$SONOS_APP_URL" "$SONOS_VOLUME_NAME" "$SONOS_APP_NAME"
+
+printf "%s\n" "Installing/Updating Homebrew..."
+# Install Homebrew if it is not already installed
+command -v brew >/dev/null 2>&1 || { echo >&2 "Installing Homebrew Now"; \
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; }
+
+brew update
+
+printf "%s\n" "Checking for ssh keys..."
+if [[ ! -f $HOME/.ssh/id_rsa ]]; then
+    # Create an SSH key
+    read -p "Email address for git credentials: " user_email
+    if [[ -z "$user_email" ]]; then
+        printf "ERROR: Invalid user email address.\n"
+        exit 1
+    fi
+
+    ssh-keygen -t rsa -b 4096 -C $user_email
+fi
+
+printf "%s\n" "Installing Homebrew packages..."
+###### Homebrew ######
+brew install mas
+
+###### Homebrew Cask ######
+printf "%s\n" "Installing Homebrew Casks..."
+brew install --cask microsoft-auto-update
+brew install --cask microsoft-word
+brew install --cask microsoft-excel
+brew install --cask microsoft-outlook
+brew install --cask microsoft-powerpoint
+brew install --cask microsoft-teams
+
+printf "%s\n" "Installing App Store Apps"
+# Slack
+mas install 803453959
+# Evernote
+mas install 406056744
+# Grammarly for Safari
+mas install 1462114288
+# Magnet
+mas install 441258766
+# Affinity Photo
+mas install 881418622
+# Affinity Publisher
+mas install 824183456
+# Greenshot
+mas install 1103915944
+# F5Access
+mas install 1243219105
+# Pixelmator Classic
+mas install 407963104
